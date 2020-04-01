@@ -1,10 +1,19 @@
 import React from "react";
+import { useHistory } from "react-router-dom";
+// import { withRouter } from "react-router-dom";
+//withRouter takes a component as an argument and returns a modified component
+//it is like a function that returns a powered up component
 
 import "./menu-item.styles.scss";
 
-export const MenuItem = ({ title, imageUrl, size }) => {
+export const MenuItem = ({ title, imageUrl, size, linkUrl }) => {
+  let history = useHistory();
+
   return (
-    <div className={`${size} menu-item`}>
+    <div
+      className={`${size} menu-item`}
+      onClick={() => history.push(`/${linkUrl}`)}
+    >
       <div
         className="background-image"
         style={{ backgroundImage: `url(${imageUrl})` }}
@@ -16,3 +25,5 @@ export const MenuItem = ({ title, imageUrl, size }) => {
     </div>
   );
 };
+
+// export default withRouter(MenuItem);
