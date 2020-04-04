@@ -1,6 +1,7 @@
 import firebase from "firebase/app";
 import "firebase/firestore";
 import "firebase/auth";
+import { useEffect } from "react";
 
 const config = {
   apiKey: "AIzaSyAwzTeSZza16dAW3x1rF_QnvizVLJVK2Ow",
@@ -11,6 +12,27 @@ const config = {
   messagingSenderId: "46172237685",
   appId: "1:46172237685:web:edf9ef3c48a75d018c6d3c",
   measurementId: "G-09KKLP9VMX"
+};
+
+export const createUserProfileDocument = async (userAuth, additionalData) => {
+  if (!userAuth) return;
+
+  const userRef = firestore.doc(`users/${userAuth.uid}`);
+  const snapShot = await userRef.get();
+
+  console.log(snapShot);
+
+  if (!snapShot.exists) {
+    const { displayName, email } = userAuth;
+    const createdAt = new Date();
+
+    try {
+      await userRef.set({ displayName, email, createdAt, ...additionalData });
+    } catch (error) {
+      console.log("error creating user", error.message);
+    }
+  }
+  return userRef;
 };
 
 firebase.initializeApp(config);
