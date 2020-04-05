@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import "./App.css";
-import { Route, Switch } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { Route, Switch, Redirect } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 
 import { Homepage } from "./pages/homepage/Homepage";
 import { Shop } from "./pages/shop/Shop";
@@ -14,6 +14,8 @@ import { setCurrentUser } from "./redux/user/user.actions";
 function App() {
   // const [currentUser, setCurrentUser] = useState(null);
   const dispatch = useDispatch();
+  const currentUser = useSelector(state => state.user.currentUser);
+
   // console.log(currentUser);
 
   useEffect(() => {
@@ -42,7 +44,13 @@ function App() {
       <Switch>
         <Route exact path="/" component={Homepage} />
         <Route exact path="/shop" component={Shop} />
-        <Route exact path="/signin" component={RegisterAndLogin} />
+        <Route
+          exact
+          path="/signin"
+          render={() =>
+            currentUser ? <Redirect to="/" /> : <RegisterAndLogin />
+          }
+        />
       </Switch>
     </div>
   );
