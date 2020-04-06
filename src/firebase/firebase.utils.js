@@ -1,7 +1,6 @@
 import firebase from "firebase/app";
 import "firebase/firestore";
 import "firebase/auth";
-import { useEffect } from "react";
 
 const config = {
   apiKey: "AIzaSyAwzTeSZza16dAW3x1rF_QnvizVLJVK2Ow",

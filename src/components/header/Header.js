@@ -7,8 +7,12 @@ import { auth } from "../../firebase/firebase.utils";
 import "./header.styles.scss";
 import { ReactComponent as Logo } from "../../assets/crown.svg";
 
+import { CartIcon } from "../cart-icon/CartIcon";
+import { CartDropdown } from "../cart-dropdown/CartDropdown";
+
 export const Header = () => {
   const currentUser = useSelector(state => state.user.currentUser);
+  const hidden = useSelector(state => state.cart.hidden);
   console.log(currentUser);
   return (
     <div className="header">
@@ -31,7 +35,9 @@ export const Header = () => {
             SIGN IN
           </Link>
         )}
+        <CartIcon />
       </div>
+      {hidden ? null : <CartDropdown />}
     </div>
   );
 };
