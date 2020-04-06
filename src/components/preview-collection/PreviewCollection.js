@@ -11,8 +11,8 @@ export const PreviewCollection = ({ title, items }) => {
       <div className="preview">
         {items
           .filter((item, index) => index < 4)
-          .map(({ id, ...otherItemProps }) => (
-            <ItemCollection key={id} {...otherItemProps} />
+          .map(item => (
+            <ItemCollection key={item.id} item={item} />
           ))}
       </div>
     </div>
