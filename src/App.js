@@ -7,14 +7,24 @@ import { Homepage } from "./pages/homepage/Homepage";
 import { Shop } from "./pages/shop/Shop";
 import { Header } from "./components/header/Header";
 import { RegisterAndLogin } from "./pages/RegisterAndLogin";
+import { Checkout } from "./pages/checkout/Checkout";
 
 import { auth, createUserProfileDocument } from "./firebase/firebase.utils";
 import { setCurrentUser } from "./redux/user/user.actions";
 
+import { createStructuredSelector } from "reselect";
+import { selectCurrentUser } from "./redux/user/user.selector";
+
 function App() {
   // const [currentUser, setCurrentUser] = useState(null);
   const dispatch = useDispatch();
-  const currentUser = useSelector(state => state.user.currentUser);
+  // const currentUser = useSelector(state => state.user.currentUser);
+
+  const selectors = useSelector(
+    createStructuredSelector({
+      currentUser: selectCurrentUser
+    })
+  );
 
   // console.log(currentUser);
 
@@ -44,11 +54,12 @@ function App() {
       <Switch>
         <Route exact path="/" component={Homepage} />
         <Route exact path="/shop" component={Shop} />
+        <Route exact path="/checkout" component={Checkout} />
         <Route
           exact
           path="/signin"
           render={() =>
-            currentUser ? <Redirect to="/" /> : <RegisterAndLogin />
+            selectors.currentUser ? <Redirect to="/" /> : <RegisterAndLogin />
           }
         />
       </Switch>
