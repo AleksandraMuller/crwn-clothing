@@ -15,6 +15,8 @@ import { setCurrentUser } from "./redux/user/user.actions";
 import { createStructuredSelector } from "reselect";
 import { selectCurrentUser } from "./redux/user/user.selector";
 
+import { Collection } from "./pages/collection/Collection";
+
 function App() {
   // const [currentUser, setCurrentUser] = useState(null);
   const dispatch = useDispatch();
@@ -62,6 +64,7 @@ function App() {
             selectors.currentUser ? <Redirect to="/" /> : <RegisterAndLogin />
           }
         />
+        <Route path="/shop/:collectionId" component={Collection} />
       </Switch>
     </div>
   );

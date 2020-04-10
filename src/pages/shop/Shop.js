@@ -1,15 +1,15 @@
-import React, { useState } from "react";
+import React from "react";
+import { Route } from "react-router-dom";
 
-import { ShopData } from "./shop.data";
-import { PreviewCollection } from "../../components/preview-collection/PreviewCollection";
+import { CollectionsOverview } from "../../components/collections-overview/CollectionsOverview";
+// import { Category } from "../category/Category";
 
-export const Shop = () => {
-  const [collections] = useState(ShopData);
+export const Shop = ({ match }) => {
   return (
     <div className="shop-page">
-      {collections.map(({ id, ...otherCollectionProps }) => (
-        <PreviewCollection key={id} {...otherCollectionProps} />
-      ))}
+      <Route exact path={`${match.path}`} component={CollectionsOverview} />
+      {/* <Route path={`${match.path}/:categoryId`} component={Category} /> */}
+      {/* This only works via App.js, why??? */}
     </div>
   );
 };
