@@ -8,6 +8,8 @@ import {
   selectCartTotal
 } from "../../redux/cart/cart.selector";
 
+import { StripeButton } from "../../components/stripe-button/StripeButton";
+
 import "./checkout.styles.scss";
 
 export const Checkout = () => {
@@ -42,6 +44,8 @@ export const Checkout = () => {
       <div className="total">
         <span>TOTAL: ${selectors.total}</span>
       </div>
+      {/* <div className="test-warning"></div> */}
+      <StripeButton price={selectors.total} />
     </div>
   );
 };
