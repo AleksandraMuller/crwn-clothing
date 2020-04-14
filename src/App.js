@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import "./App.css";
 import { Route, Switch, Redirect } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
@@ -9,28 +9,32 @@ import { Header } from "./components/header/Header";
 import { RegisterAndLogin } from "./pages/RegisterAndLogin";
 import { Checkout } from "./pages/checkout/Checkout";
 
-import { auth, createUserProfileDocument } from "./firebase/firebase.utils";
+import {
+  auth,
+  createUserProfileDocument
+  // addCollectionAndDocuments
+} from "./firebase/firebase.utils";
 import { setCurrentUser } from "./redux/user/user.actions";
 
 import { createStructuredSelector } from "reselect";
 import { selectCurrentUser } from "./redux/user/user.selector";
 
-import { Collection } from "./pages/collection/Collection";
-
 function App() {
-  // const [currentUser, setCurrentUser] = useState(null);
   const dispatch = useDispatch();
   // const currentUser = useSelector(state => state.user.currentUser);
 
   const selectors = useSelector(
     createStructuredSelector({
       currentUser: selectCurrentUser
+      // loading: selectLoadingState
+      // collectionsArray: selectCollectionsForPreview
     })
   );
 
   // console.log(currentUser);
 
   useEffect(() => {
+    // const { collectionsArray } = selectors;
     const unsuscribeFromAuth = auth.onAuthStateChanged(async userAuth => {
       if (userAuth) {
         const userRef = await createUserProfileDocument(userAuth);
@@ -42,6 +46,10 @@ function App() {
       }
 
       setCurrentUser(userAuth);
+      // addCollectionAndDocuments(
+      //   "collection",
+      //   collectionsArray.map(({ title, items }) => ({ title, items }))
+      // );
       // setCurrentUser(user);
       // console.log(user);
       // createUserProfileDocument(user);
@@ -50,12 +58,13 @@ function App() {
       unsuscribeFromAuth();
     };
   }, [dispatch]);
+
   return (
     <div>
       <Header />
       <Switch>
         <Route exact path="/" component={Homepage} />
-        <Route exact path="/shop" component={Shop} />
+        <Route path="/shop" component={Shop} />
         <Route exact path="/checkout" component={Checkout} />
         <Route
           exact
@@ -64,7 +73,6 @@ function App() {
             selectors.currentUser ? <Redirect to="/" /> : <RegisterAndLogin />
           }
         />
-        <Route path="/shop/:collectionId" component={Collection} />
       </Switch>
     </div>
   );

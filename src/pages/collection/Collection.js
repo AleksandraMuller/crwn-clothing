@@ -7,7 +7,7 @@ import { selectCollection } from "../../redux/shop/shop.selectors";
 import { ItemCollection } from "../../components/item-collection/ItemCollection";
 import "./collection.styles.scss";
 
-export const Collection = () => {
+export const Collection = ({ loading }) => {
   let { collectionId } = useParams();
 
   const selectors = useSelector(
@@ -20,12 +20,14 @@ export const Collection = () => {
 
   return (
     <div className="collection-page">
-      <h2 className="title">{title}</h2>
-      <div className="items">
-        {items.map(item => (
-          <ItemCollection key={item.id} item={item} />
-        ))}
-      </div>
+      {!loading && <h2 className="title">{title}</h2>}
+      {!loading && (
+        <div className="items">
+          {items.map(item => (
+            <ItemCollection key={item.id} item={item} />
+          ))}
+        </div>
+      )}
     </div>
   );
 };
